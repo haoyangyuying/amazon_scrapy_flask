@@ -16,8 +16,8 @@ class MyItem(scrapy.Item):
 
 class ReviewspiderSpider(scrapy.Spider):
 	name = 'reviewspider'
-	allowed_domains = ["amazon.in"]
-	# start_urls = ["https://www.amazon.in/dp/B0C1VRMJFV"]
+	allowed_domains = ["amazon.com.au"]
+	# start_urls = ["https://www.amazon.com.au/dp/B0C1VRMJFV"]
 
 	myBaseUrl = ''
 	start_urls = []
@@ -34,7 +34,7 @@ class ReviewspiderSpider(scrapy.Spider):
 		# This will get the link for the all reviews tag on amazon page.
 		all_reviews = response.xpath('//div[@data-hook="reviews-medley-footer"]//a[@data-hook="see-all-reviews-link-foot"]/@href').extract_first()
 		# This will tell scrapy to move to all reviews page for further scraping.
-		yield response.follow("https://www.amazon.in"+all_reviews, callback=self.parse_page)
+		yield response.follow("https://www.amazon.com.au"+all_reviews, callback=self.parse_page)
 
 	
 	def parse_page(self, response):
@@ -63,4 +63,4 @@ class ReviewspiderSpider(scrapy.Spider):
 			next_page = response.css('.a-last > a::attr(href)').extract_first()
 				# Checking if next page is not none then loop back in the same function with the next page URL.
 			if next_page is not None:
-				yield response.follow("https://www.amazon.in"+next_page, callback=self.parse_page)
+				yield response.follow("https://www.amazon.com.au"+next_page, callback=self.parse_page)
